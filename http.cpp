@@ -179,13 +179,16 @@ std::thread Server::Start(int port) {
       auto Handler = [this, &info]() -> HTTPCallback {
         auto name = info.Path;
         for (const auto &[method, key, value] : Handlers) {
-          if (info.Method != method) continue;
-          auto prefixLength = key.size() - 3;
+          if (info.Method != method)
+            continue;
+          int prefixLength = key.size() - 3;
           if (prefixLength > 0 && key.substr(prefixLength) == "...") {
+            auto prefix = key.substr(0, prefixLength);
             if (name.size() >= prefixLength &&
-                name.substr(0, prefixLength) == key.substr(0, prefixLength)) {
+                name.substr(0, prefixLength) == prefix) {
+            
+              return value;
             }
-            return value;
           } else if (key == name) {
             return value;
           }
@@ -203,7 +206,11 @@ std::thread Server::Start(int port) {
       auto callback = Handler();
 
       if (callback) {
-        callback(&httpreq);
+        try {
+          callback(&httpreq);
+        } catch (...) {
+          httpreq.Respond(500, "Error");
+        }
 
         if (!httpreq.Responded) {
           std::cerr << "HTTP Handlers must call the respond method!\n\n";

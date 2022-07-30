@@ -3,13 +3,15 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>HTTP Responder!</title>
+    <title>Connect4</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" type="text/javascript" defer></script>
   </head>
   
-  <body>
+  <body data-game-over="0">
     <H1>Connect 4</H1>
+    <div>To Play: <span id="player">1</span></div>
     <div id="board"></div>
+    <button onclick='PlayMcts()'>MCTS</button>
   </body>
 </http>

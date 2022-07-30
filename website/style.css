@@ -1,9 +1,35 @@
 #board {
   display: grid;
   grid-template-columns: repeat(7, 30px);
+  padding: 10px;
 }
 
+#board div[data-value] {
+  text-align: center;
+}
+
+body[data-game-over="1"] button {
+  background-color: #ff8080;
+}
+
+#board button::after {
+  content: "V"
+}
+
+#board div[data-value] {
+  border: white solid 1px;
+  margin: 0px;
+  padding: 0px;
+  color: black;
+  background-color: black;
+}
 #board div[data-value]::after {
-  content: attr(data-value);
-  
+  content: attr(data-value); 
+}
+
+#board div[data-value="1"] {
+  background-color: yellow;
+}
+#board div[data-value="2"] {
+  background-color: lime;
 }
