@@ -1,0 +1,9 @@
+#board {
+  display: grid;
+  grid-template-columns: repeat(7, 30px);
+}
+
+#board div[data-value]::after {
+  content: attr(data-value);
+  
+}
