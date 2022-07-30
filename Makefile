@@ -1,11 +1,16 @@
 all: main clean-deps
 
 CXX = clang++
-override CXXFLAGS += -g -Wall -pedantic -pthread -std=c++20
+override CXXFLAGS += -O3 -Wall -pedantic -pthread -std=c++20
 
 SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
-OBJS = $(SRCS:.cpp=.o)
+OBJS = $(SRCS:.cpp=.o) connect4/src-cc/connect4.so
 DEPS = $(SRCS:.cpp=.d)
+
+connect4/src-cc/connect4.so: c4_subsystem
+
+c4_subsystem:
+	cd connect4/src-cc && $(MAKE) connect4.so
 
 %.d: %.cpp
 	@set -e; rm -f "$@"; \
